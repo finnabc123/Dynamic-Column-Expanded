@@ -1,0 +1,52 @@
+<button mat-raised-button (click)="addColumn()"> Add column </button>
+<button mat-raised-button (click)="removeColumn()"> Remove column </button>
+<button mat-raised-button (click)="shuffle()"> Shuffle </button>
+
+<table mat-table [dataSource]="data" class="mat-elevation-z8">
+  <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns, let colIndx=index">
+    <th mat-header-cell *matHeaderCellDef (click)="exp(column, colIndx)">
+      
+      <ng-container *ngIf="column == selectedColumn; else refCell">
+				<table class='mat-elevation-z8 mat-table'>
+          <tr class="mat-header-row"><td colspan="3">	{{column}}    </td>
+					<tr class="mat-header-row">
+						<td class="mat-header-cell cdk-column-name mat-column-name" width="50">PS</td>
+						<td class="mat-header-cell cdk-column-name mat-column-name" width="50">APR</td>
+            <td class="mat-header-cell cdk-column-name mat-column-name" width="50">FS</td>
+					</tr>
+				</table>
+			</ng-container>
+			<ng-template #refCell>
+				{{column}}        
+			</ng-template>
+      
+      
+       </th>
+    <td mat-cell #isExpndRow *matCellDef="let element">
+      <ng-container *ngIf="column == selectedColumn; else refCell">
+				<table class="mat-elevation-z8 mat-table">
+					<tr class="mat-row">
+						<td class="mat-cell" width="50">{{colIndx > 1 ? element[column-1] : 0}}</td>
+						<td class="mat-cell" width="50"> {{colIndx > 1 && (element[column-1]) != 0 ? element[column] - element[column-1] : 0}}</td>
+            <td width="100">{{element[column]}} </td>
+					</tr>
+				</table>
+			</ng-container>
+			<ng-template #refCell>
+				{{element[column]}}        
+			</ng-template>
+
+      
+     
+    </td>
+  </ng-container>
+
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+</table>
+
+
+<!-- Copyright 2019 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->
