@@ -5,3 +5,11 @@ table {
 button {
   margin: 16px 8px;
 }
+
+td.mat-cell.text-Align {
+  text-align: left;
+  padding: 5;
+  width: auto;
+  margin: 0;
+}
+

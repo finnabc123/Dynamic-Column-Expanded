@@ -1,37 +1,22 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 
-export interface PeriodicElement {
-  name: any;
-  position: any;
-  weight: any;
-  symbol: any;
-}
+
 
 const ELEMENT_DATA: any[] = [
   {
-    "2011": 10000,
-    "2012": 12000,
-    "2013": 13000,
-    "2014": 16000,
-    name: "A",
-    ps: 2000
+    name: 'Hydrogen', 
+    2010: {fs:1400, ps:1000, apr1:200, apr2:200, mon1:'Jan', mon2:'Jun'}, 
+    2011:{ fs:1700, ps:1000, apr1:500, apr2:200, mon1:'Jan', mon2:'Jun'}, 
+    2012:{fs:2200, ps:1700, apr1:400, apr2:100, mon1:'Jan', mon2:'Jun'},
+    dept:'Radio Active'
   },
   {
-    "2011": 0,
-    "2012": 12000,
-    "2013": 13000,
-    "2014": 16000,
-    name: "B",
-    ps: 3000
-  },
-  { "2011": 0, "2012": 0, "2013": 12000, "2014": 15000, name: "C", ps: 4000 },
-  {
-    "2011": 5000,
-    "2012": 6000,
-    "2013": 7000,
-    "2014": 9000,
-    name: "D",
-    ps: 12000
+    name: 'Carbon',
+    2010: {fs:0, ps:0, apr1:0, apr2:0, mon1:'', mon2:''}, 
+    2011:{fs:1550,ps:1100, apr1:200, apr2:250, mon1:'Jan', mon2:'Jun'}, 
+    2012:{fs:2050, ps:1550, apr1:300, apr2:200, mon1:'Jan', mon2:'Jun'},
+    dept:'Radio Inactive'
+
   }
 ];
 
@@ -43,27 +28,21 @@ const ELEMENT_DATA: any[] = [
   styleUrls: ["table-dynamic-columns-example.css"],
   templateUrl: "table-dynamic-columns-example.html"
 })
-export class TableDynamicColumnsExample {
-  displayedColumns: string[] = ["name", "2011", "2012", "2013", "2014"];
+export class TableDynamicColumnsExample implements OnInit{
+  displayedColumns: string[] = ['name','dept', '2010', '2011', '2012'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
-  data: PeriodicElement[] = ELEMENT_DATA;
-  isExpnd = false;
+  /* You can make it dynamic column for inner Table applying loop on object 2010, 2011..... and so on  and assign to it*/
+  expndDisplayedColumns:string[] = ['PS', 'APR1', 'MON1', 'APR2', 'MON2', 'FS'];
+  data: any[] = ELEMENT_DATA;
   selectedColumn: any;
 
-  addColumn() {
-    this.columnsToDisplay.push("2011");
+  ngOnInit() {
+    console.log(this.columnsToDisplay)
   }
 
-  exp(col: any, indx: any) {
-    console.log("COLDETAILS", col);
-    console.log("COLDETAILS", indx);
-    if (indx > 0) {
-      if (this.selectedColumn == col) {
-        this.selectedColumn = null;
-      } else {
-        this.selectedColumn = col;
-      }
-    }
+  addColumn() {
+    const randomColumn = Math.floor(Math.random() * this.displayedColumns.length);
+    this.columnsToDisplay.push(this.displayedColumns[randomColumn]);
   }
 
   removeColumn() {
@@ -84,8 +63,16 @@ export class TableDynamicColumnsExample {
       this.columnsToDisplay[randomIndex] = temp;
     }
   }
-}
 
-/**  Copyright 2019 Google LLC. All Rights Reserved.
-    Use of this source code is governed by an MIT-style license that
-    can be found in the LICENSE file at http://angular.io/license */
+  exp(col: any, indx: any) {
+    console.log("COLDETAILS", col);
+    console.log("COLDETAILS Indx", indx);
+    if (indx > 1) {
+      if (this.selectedColumn == col) {
+        this.selectedColumn = null;
+      } else {
+        this.selectedColumn = col;
+      }
+    }
+  }
+}

@@ -3,47 +3,44 @@
 <button mat-raised-button (click)="shuffle()"> Shuffle </button>
 
 <table mat-table [dataSource]="data" class="mat-elevation-z8">
-  <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns, let colIndx=index">
-    <th mat-header-cell *matHeaderCellDef (click)="exp(column, colIndx)">
-      
-      <ng-container *ngIf="column == selectedColumn; else refCell">
-				<table class='mat-elevation-z8 mat-table'>
-          <tr class="mat-header-row"><td colspan="3">	{{column}}    </td>
-					<tr class="mat-header-row">
-						<td class="mat-header-cell cdk-column-name mat-column-name" width="50">PS</td>
-						<td class="mat-header-cell cdk-column-name mat-column-name" width="50">APR</td>
-            <td class="mat-header-cell cdk-column-name mat-column-name" width="50">FS</td>
-					</tr>
-				</table>
-			</ng-container>
-			<ng-template #refCell>
-				{{column}}        
-			</ng-template>
-      
-      
-       </th>
-    <td mat-cell #isExpndRow *matCellDef="let element">
-      <ng-container *ngIf="column == selectedColumn; else refCell">
-				<table class="mat-elevation-z8 mat-table">
+	<ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns, let colIndx=index">
+		<th mat-header-cell *matHeaderCellDef (click)="exp(column, colIndx)">
+
+			<ng-container *ngIf="column == selectedColumn; else refCell">
+				<table class="mat-table mat-elevation-z8"*ngIf="colIndx>1">
+					<tr class="mat-row">{{column}}</tr>
 					<tr class="mat-row">
-						<td class="mat-cell" width="50">{{colIndx > 1 ? element[column-1] : 0}}</td>
-						<td class="mat-cell" width="50"> {{colIndx > 1 && (element[column-1]) != 0 ? element[column] - element[column-1] : 0}}</td>
-            <td width="100">{{element[column]}} </td>
+						<td  class="mat-cell text-Align" *ngFor="let expndColumn of expndDisplayedColumns">{{expndColumn}}</td>
 					</tr>
 				</table>
 			</ng-container>
 			<ng-template #refCell>
-				{{element[column]}}        
+				{{column}}
 			</ng-template>
+		</th>
+		<td mat-cell #isExpndRow *matCellDef="let element">
+			<ng-container *ngIf="column == selectedColumn; else refCell">
+				<table class="mat-table mat-elevation-z8" *ngIf="colIndx>1">
+					<tr class="mat-row">
+						<td class="mat-cell text-Align">{{element[column].ps}}</td>
+						<td class="mat-cell text-Align">{{element[column].apr1}}</td>
+						<td class="mat-cell text-Align">{{element[column].mon1}}</td>
+						<td class="mat-cell text-Align">{{element[column].apr2}}</td>
+						<td class="mat-cell text-Align">{{element[column].mon2}}</td>
+						<td class="mat-cell text-Align">{{element[column].fs}}</td>
+					</tr>
 
-      
-     
-    </td>
-  </ng-container>
+				</table>
+			</ng-container>
+			<ng-template #refCell>
+				{{colIndx > 1 ? element[column].fs:element[column]}}
+			</ng-template>
+		</td>
+	</ng-container>
 
 
-  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+	<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+	<tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
 </table>
 
 
